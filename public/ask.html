@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AskPeople</title>
+    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="../static/css/styles.css" rel="stylesheet" />
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <div class="d-flex gap-2 align-items-center">
+                <div style="width: 60px;">
+                    <img src="../static/images/logo.svg" class="img-fluid" alt="logo">
+                </div>
+                <a class="navbar-brand" href="#">AskPeople</a>
+            </div>
+
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Ask</button>
+            </form>
+
+            <div class="d-flex gap-2 align-items-center">
+                <div class="border" style="width: 60px; height: 60px;">
+                    <img src="../static/images/avatar.jpeg" class="img-fluid" alt="avatar">
+                </div>
+                
+                <div class="content">
+                    <div class="content__name">Dr. Pepper</div>
+                    <div class="content__links">
+                        <a href="#">Settings</a>
+                        <a href="#">Log out</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="container mt-2 flex-grow-1">
+        <div class="row">
+            <section class="col">
+                <h1>New Question</h1>
+
+                <div class="mb-3 row" >
+                    <div class="col-1">Title</div>
+                    <div class="col-8">
+                        <input type="text" class="form-control" id="inputTitle" maxlength="100" placeholder="How to build a moon park?">
+                        <div class="form-hint">Minimum 10 characters, maximum 100</div>
+                        <div class="error-message">The title is required and must be between 10-100 characters</div>
+                    </div>
+                </div>
+
+                <div class="mb-3 row " >
+                    <div class="col-1">Text</div>
+                    <div class="col-8">
+                        <textarea class="form-control is-invalid" id="textArea" rows="5" maxlength="2000" placeholder="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe, qui totam culpa nisi officiis quod laborum reiciendis alias ipsum at harum unde impedit tempore illum eveniet non molestiae fugit ab!"></textarea>
+                        <div class="form-hint">Minimum 50 characters, maximum 2000</div>
+                        <div class="error-message">The question text is too short (minimum 50 characters)</div>
+                    </div>
+                </div>
+
+                <div class="mb-3 row " >
+                    <div class="col-1">Tags</div>
+                    <div class="col-8">
+                        <input type="text" class="form-control is-invalid" id="inputTags" placeholder="moon,space,elevator">
+                        <div class="form-hint">minimum 1 tag, maximum 3</div>
+                        <div class="error-message">The question must contain 1-3 tags!</div>
+                    </div>
+                </div>
+
+                <div class="mb-3 row" >
+                    <div class="col-1"></div>
+                    <div class="col-8">
+                        <button class="btn btn-outline-success" type="submit">Ask question!</button>
+                    </div>
+                </div>
+            </section> 
+            
+            <aside class="col-md-3 col-lg-2">
+                <section class="mb-3">
+                    <h3>Popular tags</h3>
+                    <div>
+                        <span class="badge rounded-pill text-bg-primary">Education</span>
+                        <span class="badge rounded-pill text-bg-secondary">BMSTU</span>
+                        <span class="badge rounded-pill text-bg-success">Car</span>
+                        <span class="badge rounded-pill text-bg-danger">Audi</span>
+                        <span class="badge rounded-pill text-bg-warning">Ants</span>
+                        <span class="badge rounded-pill text-bg-info">Info</span>
+                        <span class="badge rounded-pill text-bg-light">Physics</span>
+                        <span class="badge rounded-pill text-bg-dark">Dark theme</span>
+                    </div>
+                </section>
+        
+                <section>
+                    <h3>Best members</h3>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">John Doe</a>
+                        <a href="#" class="list-group-item list-group-item-action">Jane Smith</a>
+                        <a href="#" class="list-group-item list-group-item-action">Mike Johnson</a>
+                        <a href="#" class="list-group-item list-group-item-action">Sarah Williams</a>
+                    </div>
+                </section>
+            </aside>
+        </div>
+        <div bg-red></div>
+    </main>
+
+    <footer class=" bg-dark text-white py-3 mt-auto">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 AskPeople. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../static/bootstrap/js/bootstrap.bundle.js"></script>
+</body>
+
+</html>
