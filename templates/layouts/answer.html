@@ -1,0 +1,32 @@
+{% load static %}
+<articles class="d-flex gap-3 flex-column">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2">
+                    <div class="border mb-2 w-100">
+                        <img src="{% static 'images/question.jpg' %}" alt="img" class="img-fluid">
+                    </div>
+                    <div class="btn-group d-flex">
+                        <button type="button" class="btn btn-outline-success like-btn" style="border-right: 1px solid gray">
+                            <span class="count">5</span>
+                        </button>
+                        
+                        <button type="button" class="btn btn-outline-danger dislike-btn" style="border-left: 1px solid gray">
+                            <span class="count">2</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col d-flex flex-column justify-content-between">
+                    <div>
+                        <p class="card-text">{{ answer.text }}</p>
+                    </div>
+                    <div class="mt-2">
+                        <input type="radio" class="btn-check" name="correct-answer" id="btn-check{{ answer.id }}" autocomplete="off">
+                        <label class="btn btn-outline-success" for="btn-check{{ answer.id }}">Correct!</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

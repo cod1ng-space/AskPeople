@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex align-items-center gap-4 mb-4">
+        <h1>{{ question.title }}</h1>
+    </div>
+    {% include 'layouts/question.html' %}
+    
+    <h3 class="mt-5 mb-3">Answers ({{ page_obj.paginator.count }})</h3>
+
+    {% for answer in answers %}
+    {% include 'layouts/answer.html' %}
+    {% endfor %}
+
+
+    {% include 'layouts/pagination.html' %}
+
+    <div class="answer-form">
+        <h3>Your Answer</h3>
+        <form>
+            <div class="mb-3">
+                <textarea class="form-control form-textarea" id="answerText" rows="3" placeholder="Write your answer here..." required></textarea>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success px-4">Answer</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,14 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <h1>Tag: </h1>
+        <span class="badge rounded-pill text-bg-primary text-l-start fs-5">{{ tag_name }}</span>
+    </div>
+    {% for question in questions %}
+        {% include 'layouts/question.html' %}
+    {% endfor %}
+    
+    {% include 'layouts/pagination.html' %}
+{% endblock %}
