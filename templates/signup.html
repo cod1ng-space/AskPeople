@@ -1,0 +1,58 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1>Registration</h1>
+
+        <form class="user-form">
+
+            <div class="mb-3">
+                <div class="mb-2">Login</div>
+                <input type="text" class="form-control is-invalid" id="userUsername" value="Pirrat"
+                placeholder="Enter your login here" maxlength="30" required>
+                <div class="error-message">Login is already taken</div>
+            </div>
+
+            <div class="mb-3">
+                <div class="mb-2">Email address</div>
+                <input type="email" class="form-control" id="userEmail" value="user@example.com" 
+                placeholder="Enter your email here" maxlength="100" required>
+            </div>
+
+            <div class="mb-3">
+                <div class="mb-2">Nickname</div>
+                <input type="text" class="form-control" id="userUsername" 
+                placeholder="Enter your nickname here" value="Dr. Pepper"
+                    maxlength="30" required>
+            </div>
+
+            <div class="mb-4">
+                <div class="mb-2">Password</div>
+                <input type="password" class="form-control" id="userPassword"
+                    placeholder="Enter your password here" maxlength="50">
+                <div class="form-hint">Minimum 8 characters</div>
+            </div>
+
+
+            <div class="mb-4">
+                <div class="mb-2">Repeat password</div>
+                <input type="password" class="form-control" id="userPassword"
+                    placeholder="Repeat your password here" maxlength="50">
+                <div class="form-hint">Minimum 8 characters</div>
+            </div>
+
+            <div class="mb-4">
+                <div class="mb-2">Profile image</div>
+                <input type="file" class="form-control" id="avatarUpload" accept="image/*">
+                <div class="form-hint">JPEG or PNG, max 2MB</div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success">Register!</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -5,8 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AskPeople</title>
-    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <link href="../static/css/styles.css" rel="stylesheet" />
+    <link href="{% static "/bootstrap/css/bootstrap.css" %}" rel="stylesheet" />
+    <link href="{% static "/bootstrap/css/bootstrap.css"%}" rel="stylesheet" />
+    <link href="{% static "/css/styles.css" %}" rel="stylesheet" />
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -14,20 +16,36 @@
         <div class="container">
             <div class="d-flex gap-2 align-items-center">
                 <div style="width: 60px;">
-                    <img src="../static/images/logo.svg" class="img-fluid" alt="logo">
+                    <img src="{% static "/images/logo.svg" %}" class="img-fluid" alt="logo">
                 </div>
                 <a class="navbar-brand" href="#">AskPeople</a>
             </div>
 
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Ask</button>
+                <a href="{% url "ask" %}" class="btn btn-outline-success" type="submit">Ask</a>
             </form>
 
-            <div class="d-flex gap-3 align-items-center">
-                <a href="#">Log in</a>
-                <a href="#">Register</a>
-            </div>
+            {% if request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'signup' %}
+                <div class="d-flex gap-3 align-items-center">
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Log in</a>
+                    <a href="{% url 'signup' %}" class="btn btn-primary">Register</a>
+                </div>
+            {% else %}
+                <div class="d-flex gap-2 align-items-center">
+                    <div class="border" style="width: 60px; height: 60px;">
+                        <img src="{% static "/images/avatar.jpeg" %}" class="img-fluid" alt="avatar">
+                    </div>
+                    
+                    <div class="content">
+                        <div class="content__name">Dr. Pepper</div>
+                        <div class="content__links">
+                            <a href="{% url 'settings' %}">Settings</a>
+                            <a href="{% url 'signup' %}">Log out</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
         </div>
     </nav>
@@ -35,33 +53,8 @@
     <main class="container mt-2 flex-grow-1">
         <div class="row">
             <section class="col">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <h1 class="mb-4">Log In</h1>
-
-                        <form class="user-form">
-                            <div class="mb-3">
-                                <div class="mb-2">Login</div>
-                                <input type="text" class="form-control" id="userUsername" 
-                                placeholder="Enter the login here" maxlength="30" required>
-                            </div>
-
-                            <div class="mb-4">
-                                <div class="mb-2">Password</div>
-                                <input type="password" class="form-control" id="userPassword"
-                                    placeholder="Enter the password here" maxlength="50">
-                            </div>
-
-                            <div class="mb-2">
-                                <button type="submit" class="btn btn-success">Login!</button>
-                                <div class="error-message">User doesn't exist!</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <a href="#">Create a new accout</a>
-                            </div>
-                        </form>
-                    </div>
+                {% block content %}
+                {% endblock %}
             </section> 
             
             <aside class="col-md-3 col-lg-2">
@@ -98,8 +91,6 @@
             <p class="mb-0">&copy; 2025 AskPeople. All rights reserved.</p>
         </div>
     </footer>
-
-    <script src="../static/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="{% static '/bootstrap/js/bootstrap.bundle.js' %}"></script>
 </body>
-
 </html>

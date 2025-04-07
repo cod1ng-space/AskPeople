@@ -1,0 +1,14 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex align-items-center gap-4 mb-4">
+        <h1>New Questions</h1>
+        <a href="{% url "hot" %}">Hot Questions</a>
+    </div>
+    {% for question in questions %}
+        {% include 'layouts/question.html' %}
+    {% endfor %}
+
+    {% include 'layouts/pagination.html' %}
+{% endblock %}
