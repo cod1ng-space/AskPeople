@@ -1,6 +1,0 @@
-{
-    "livePreview.defaultPreviewPath": "/public/question.html",
-    "python.analysis.autoImportCompletions": true, // Показывает импорты в автодополнении
-    "python.analysis.autoSearchPaths": true,        // Ищет модули в проекте
-    "python.analysis.useImportHeuristic": true     // Улучшает поиск импортов
-}
