@@ -60,26 +60,27 @@
             <aside class="col-md-3 col-lg-2">
                 <section class="mb-3">
                     <h3>Popular tags</h3>
-                    <div>
-                        <span class="badge rounded-pill text-bg-primary">Education</span>
-                        <span class="badge rounded-pill text-bg-secondary">BMSTU</span>
-                        <span class="badge rounded-pill text-bg-success">Car</span>
-                        <span class="badge rounded-pill text-bg-danger">Audi</span>
-                        <span class="badge rounded-pill text-bg-warning">Ants</span>
-                        <span class="badge rounded-pill text-bg-info">Info</span>
-                        <span class="badge rounded-pill text-bg-light">Physics</span>
-                        <span class="badge rounded-pill text-bg-dark">Dark theme</span>
-                    </div>
+                        {% for tag in popular_tags %}
+                            <a href="{% url 'tag' tag.name %}" class="text-decoration-none badge rounded-pill text-bg-{{ tag.get_color }} mb-1">{{ tag.name }}</a>
+                        {% empty %}
+                            <div>There are no popular tags yet</div>
+                        {% endfor %}
                 </section>
         
                 <section>
                     <h3>Best members</h3>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action">John Doe</a>
-                        <a href="#" class="list-group-item list-group-item-action">Jane Smith</a>
-                        <a href="#" class="list-group-item list-group-item-action">Mike Johnson</a>
-                        <a href="#" class="list-group-item list-group-item-action">Sarah Williams</a>
-                    </div>
+                        <div class="card-title text-center mb-2">
+                            <span class="badge bg-primary bg-opacity-10 text-primary p-2 shadow-sm text-truncate w-100" style="font-size: 1rem;">John Doe</span>
+                        </div>
+                        <div class="card-title text-center mb-2">
+                            <span class="badge bg-primary bg-opacity-10 text-primary p-2 shadow-sm text-truncate w-100" style="font-size: 1rem;">Jane Smith</span>
+                        </div>
+                        <div class="card-title text-center mb-2">
+                            <span class="badge bg-primary bg-opacity-10 text-primary p-2 shadow-sm text-truncate w-100" style="font-size: 1rem;">Mike Johnson</span>
+                        </div>
+                        <div class="card-title text-center mb-2">
+                            <span class="badge bg-primary bg-opacity-10 text-primary p-2 shadow-sm text-truncate w-100" style="font-size: 1rem;">Sarah Williams</span>
+                        </div>
                 </section>
             </aside>
         </div>

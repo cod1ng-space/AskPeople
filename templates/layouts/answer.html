@@ -4,16 +4,21 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-2">
+                    <div class="card-title text-center">
+                        <span class="badge bg-primary bg-opacity-10 text-primary p-2 shadow-sm text-truncate w-100" style="font-size: 1rem;">
+                            {{ answer.author }}
+                        </span>
+                    </div>
                     <div class="border mb-2 w-100">
                         <img src="{% static 'images/question.jpg' %}" alt="img" class="img-fluid">
                     </div>
                     <div class="btn-group d-flex">
                         <button type="button" class="btn btn-outline-success like-btn" style="border-right: 1px solid gray">
-                            <span class="count">5</span>
+                            <span class="count">{{ answer.likes_count }}</span>
                         </button>
                         
                         <button type="button" class="btn btn-outline-danger dislike-btn" style="border-left: 1px solid gray">
-                            <span class="count">2</span>
+                            <span class="count">{{ answer.dislikes_count }}</span>
                         </button>
                     </div>
                 </div>

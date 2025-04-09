@@ -2,13 +2,19 @@
 {% load static %}
 
 {% block content %}
-    <div class="d-flex align-items-center gap-2 mb-3">
-        <h1>Tag: </h1>
-        <span class="badge rounded-pill text-bg-primary text-l-start fs-5">{{ tag_name }}</span>
-    </div>
-    {% for question in questions %}
-        {% include 'layouts/question.html' %}
-    {% endfor %}
-    
-    {% include 'layouts/pagination.html' %}
+    {% if tag_not_found %}
+        <div class="alert alert-info">
+            Тег "{{ tag_name }}" не найден. Вопросы по этому тегу отсутствуют.
+        </div>
+    {% else %}
+        <div class="d-flex align-items-center gap-2 mb-3">
+            <h1>Tag: </h1>
+            <span class="badge rounded-pill text-bg-{{ tag.get_color }} text-l-start fs-5">{{ tag.name }}</span>
+        </div>
+        {% for question in questions %}
+            {% include 'layouts/question.html' %}
+        {% endfor %}
+
+        {% include 'layouts/pagination.html' %}
+    {% endif %}
 {% endblock %}
