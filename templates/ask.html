@@ -1,44 +1,17 @@
 {% extends "layouts/base.html" %}
 {% load static %}
-
+{% load bootstrap5 %}
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <h1>Ask question</h1>
-        
-        <div class="mb-3 row" >
-            <div class="col-1">Title</div>
-            <div class="col-8">
-                <input type="text" class="form-control" id="inputTitle" maxlength="100" placeholder="How to build a moon park?">
-                <div class="form-hint">Minimum 10 characters, maximum 100</div>
-                <div class="error-message">The title is required and must be between 10-100 characters</div>
-            </div>
-        </div>
+        <h1 class="mb-2">Ask question</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-outline-success">Ask question!</button>
+            {% endbuttons %}
 
-        <div class="mb-3 row " >
-            <div class="col-1">Text</div>
-            <div class="col-8">
-                <textarea class="form-control is-invalid" id="textArea" rows="5" maxlength="2000" placeholder="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe, qui totam culpa nisi officiis quod laborum reiciendis alias ipsum at harum unde impedit tempore illum eveniet non molestiae fugit ab!"></textarea>
-                <div class="form-hint">Minimum 50 characters, maximum 2000</div>
-                <div class="error-message">The question text is too short (minimum 50 characters)</div>
-            </div>
-        </div>
-
-        <div class="mb-3 row " >
-            <div class="col-1">Tags</div>
-            <div class="col-8">
-                <input type="text" class="form-control is-invalid" id="inputTags" maxlength="100" placeholder="moon,space,elevator">
-                <div class="form-hint">minimum 1 tag, maximum 3</div>
-                <div class="error-message">The question must contain 1-3 tags!</div>
-            </div>
-        </div>
-
-        <div class="mb-3 row" >
-            <div class="col-1"></div>
-            <div class="col-8">
-                <button class="btn btn-outline-success" type="submit">Ask question!</button>
-            </div>
-        </div>
+        </form>
     </div>
-</div>
 {% endblock %}

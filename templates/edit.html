@@ -4,12 +4,12 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <h1 class="mb-2">Registration</h1>
+        <h1 class="mb-2">Edit profile</h1>
         <form action="" method="POST">
             {% csrf_token %}
             {% bootstrap_form form %}
             {% buttons %}
-                <button type="submit" class="btn btn-success">Register!</button>
+                <button type="submit" class="btn btn-success">Edit!</button>
             {% endbuttons %}
         </form>
     </div>

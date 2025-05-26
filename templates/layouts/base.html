@@ -26,24 +26,31 @@
                 <a href="{% url "ask" %}" class="btn btn-outline-success" type="submit">Ask</a>
             </form>
 
-            {% if request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'signup' %}
+            {% if request.user.is_authenticated %}
+                <div class="d-flex gap-2 align-items-center">
+                    <div class="border" style="width: 60px; height: 60px;">
+                        {% if request.user.profile.avatar %}
+                            <img src="{{ request.user.profile.avatar.url }}" class="img-fluid" alt="avatar">
+                        {% else %}
+                            <img src="{% static 'images/avatar.jpeg' %}" class="img-fluid" alt="avatar">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-inline-block text-center">
+                        <div class="fw-semibold small text-secondary mb-1">
+                            {{ request.user.username }}
+                        </div>
+                        <div class="d-flex justify-content-center gap-3 small">
+                            <a href="{% url 'edit' %}" class="text-decoration-none text-primary">Edit</a>
+                            <a href="{% url 'logout' %}" class="text-decoration-none text-danger">Log out</a>
+                        </div>
+                    </div>
+
+                </div>
+            {% else %}
                 <div class="d-flex gap-3 align-items-center">
                     <a href="{% url 'login' %}" class="btn btn-outline-primary">Log in</a>
                     <a href="{% url 'signup' %}" class="btn btn-primary">Register</a>
-                </div>
-            {% else %}
-                <div class="d-flex gap-2 align-items-center">
-                    <div class="border" style="width: 60px; height: 60px;">
-                        <img src="{% static "/images/avatar.jpeg" %}" class="img-fluid" alt="avatar">
-                    </div>
-                    
-                    <div class="content">
-                        <div class="content__name">Dr. Pepper</div>
-                        <div class="content__links">
-                            <a href="{% url 'settings' %}">Settings</a>
-                            <a href="{% url 'signup' %}">Log out</a>
-                        </div>
-                    </div>
                 </div>
             {% endif %}
 
