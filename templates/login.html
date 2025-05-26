@@ -1,32 +1,18 @@
 {% extends "layouts/base.html" %}
 {% load static %}
-
+{% load bootstrap5 %}
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <h1 class="mb-4">Log In</h1>
-
-        <form class="user-form">
-            <div class="mb-3">
-                <div class="mb-2">Login</div>
-                <input type="text" class="form-control" id="userUsername" 
-                placeholder="Enter the login here" maxlength="30" required>
-            </div>
-
-            <div class="mb-4">
-                <div class="mb-2">Password</div>
-                <input type="password" class="form-control" id="userPassword"
-                    placeholder="Enter the password here" maxlength="50">
-            </div>
-
-            <div class="mb-2">
+        <h1 class="mb-2">Log In</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
                 <button type="submit" class="btn btn-success">Login!</button>
-                <div class="error-message">User doesn't exist!</div>
-            </div>
+            {% endbuttons %}
 
-            <div class="mb-3">
-                <a href="#">Create a new accout</a>
-            </div>
         </form>
+        
     </div>
 {% endblock %}

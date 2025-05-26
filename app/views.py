@@ -2,9 +2,14 @@ import copy
 from multiprocessing import Value
 
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from app.models import Question, Tag
+from app.forms import AnswerForm, AskForm, LoginForm, UserEditForm, UserForm
+from app.models import Answer, Question, Tag
+from django.contrib import auth
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
+
 
 def paginate(object_list, request, per_page=10):
     try:
@@ -24,6 +29,7 @@ def paginate(object_list, request, per_page=10):
         page = paginator.page(1)
     return page
 
+
 # Create your views here.
 def index(request):
     questions = Question.objects.new()
@@ -37,11 +43,52 @@ def hot(request):
     page = paginate(q, request)
     return render(request, 'hot.html', context={'questions': page.object_list, 'page_obj': page})
 
+def ask(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('login') + f'?continue={reverse("ask")}')
+
+    if request.method == 'POST':
+        form = AskForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user
+            question.save()
+
+            tag_names = form.cleaned_data['tags']
+            for name in tag_names:
+                tag, created = Tag.objects.get_or_create(name=name)
+                question.tags.add(tag)
+
+            return redirect(question.get_url())
+    else:
+        form = AskForm()
+
+    return render(request, 'ask.html', {'form': form})
+
 def question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     answers = question.answer_set.all()
     page = paginate(answers, request)
-    return render(request, 'single_question.html', context={'question': question, 'answers': page.object_list, 'page_obj': page})
+
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.author = request.user
+            answer.save()
+
+            return redirect(f"{question.get_url()}?page={page.paginator.num_pages}#answer-{answer.id}")
+    else:
+        form = AnswerForm()
+
+    return render(request, 'single_question.html', context={
+        'question': question,
+        'answers': page.object_list,
+        'page_obj': page,
+        'form': form
+    })
+
 
 def tag(request, tag_name):
     try:
@@ -57,13 +104,43 @@ def tag(request, tag_name):
         raise Http404("Тег не найден")
 
 def login(request):
-    return render(request, 'login.html')
+    if request.user.is_authenticated:
+        return redirect(reverse('edit'))
+    
+    form = LoginForm()
+    continue_url = request.GET.get('continue', reverse('edit'))
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = auth.authenticate(request, **form.cleaned_data)
+            if user:
+                auth.login(request, user)
+                return redirect(continue_url)
+            else:
+                form.add_error(field=None, error="User not found")
+    return render(request, 'login.html', context={'form':form})
 
 def signup(request):
-    return render(request, 'signup.html')
+    if request.user.is_authenticated:
+        return redirect(reverse('edit'))
+    
+    form = UserForm()
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('edit'))
+    return render(request, 'signup.html', context={'form':form})
 
-def ask(request):
-    return render(request, 'ask.html')
+def logout(request):
+    auth.logout(request)
+    return redirect(reverse('login'))
 
-def settings(request):
-    return render(request, 'settings.html')
+@login_required(login_url=reverse_lazy('login'))
+def edit(request):
+    form = UserEditForm(instance=request.user)
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+    return render(request, 'edit.html', context={'form':form})

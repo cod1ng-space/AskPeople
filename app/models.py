@@ -17,16 +17,16 @@ class TagManager(models.Manager):
         ).order_by('-num_questions')[:limit]
     
 class Tag(models.Model):
-    COLOR_CHOICES = {
-        "pri": "primary",
-        "sec": "secondary",
-        "suc": "success",
-        "dan": "danger",
-        "war": "warning",
-        "inf": "info",
-        "lig": "light",
-        "dar": "dark",
-    }
+    COLOR_CHOICES = [
+        ("pri", "primary"),
+        ("sec", "secondary"),
+        ("suc", "success"),
+        ("dan", "danger"),
+        ("war", "warning"),
+        ("inf", "info"),
+        ("lig", "light"),
+        ("dar", "dark"),
+    ]
 
     name = models.CharField(max_length=30, unique=True)
     color = models.CharField(max_length=3, choices=COLOR_CHOICES, default="pri")
@@ -35,7 +35,7 @@ class Tag(models.Model):
 
     @property
     def get_color(self):
-        return self.COLOR_CHOICES[self.color]
+        return dict(self.COLOR_CHOICES).get(self.color, "primary")
 
     def __str__(self):
         return self.name
