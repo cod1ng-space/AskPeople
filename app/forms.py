@@ -1,4 +1,5 @@
 from hmac import new
+import re
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -208,6 +209,8 @@ class AskForm(forms.ModelForm):
 
     def clean_tags(self):
         tags_str = self.cleaned_data.get('tags', '')
+        if re.search(r'[а-яА-ЯёЁ]', tags_str):
+            raise ValidationError('Use only Latin characters.')
         tag_names = [name.strip() for name in tags_str.split(',') if name.strip()]
         if not (1 <= len(tag_names) <= 3):
             raise forms.ValidationError('Enter 1 to 3 comma-separated tags')
