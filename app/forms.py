@@ -1,8 +1,23 @@
 from hmac import new
+import re
 from django import forms
 from django.contrib.auth.models import User
-
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
+from PIL import Image
+import os
 from app.models import Answer, Profile, Question
+
+def validate_image_size(value):
+    limit = 2 * 1024 * 1024  # 2MB
+    if value.size > limit:
+        raise ValidationError('File too large. Size should not exceed 2 MB.')
+
+def validate_image_dimensions(value):
+    img = Image.open(value)
+    width, height = img.size
+    if width != height:
+        raise ValidationError('Image must be square (equal width and height).')
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30, required=True)
@@ -36,9 +51,15 @@ class UserForm(forms.ModelForm):
         help_text='Minimum 8 characters'
     )
     
-    avatar = forms.ImageField(required=False,
+    avatar = forms.ImageField(
+        required=False,
         widget=forms.FileInput(attrs={'accept': 'image/*'}),
-        help_text='JPEG or PNG, max 2MB'
+        help_text='JPG, JPEG or PNG, max 2MB, square image',
+        validators=[
+            FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
+            validate_image_size,
+            validate_image_dimensions
+        ]
     )
 
     class Meta:
@@ -88,9 +109,15 @@ class UserEditForm(forms.ModelForm):
         widget=forms.PasswordInput(attrs={'placeholder': 'Repeat new password if changing'})
     )
     
-    avatar = forms.ImageField(required=False,
+    avatar = forms.ImageField(
+        required=False,
         widget=forms.FileInput(attrs={'accept': 'image/*'}),
-        help_text='JPEG or PNG, max 2MB'
+        help_text='JPG, JPEG or PNG, max 2MB, square image (leave blank to keep current)',
+        validators=[
+            FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
+            validate_image_size,
+            validate_image_dimensions
+        ]
     )
 
     class Meta:
@@ -182,6 +209,8 @@ class AskForm(forms.ModelForm):
 
     def clean_tags(self):
         tags_str = self.cleaned_data.get('tags', '')
+        if re.search(r'[а-яА-ЯёЁ]', tags_str):
+            raise ValidationError('Use only Latin characters.')
         tag_names = [name.strip() for name in tags_str.split(',') if name.strip()]
         if not (1 <= len(tag_names) <= 3):
             raise forms.ValidationError('Enter 1 to 3 comma-separated tags')

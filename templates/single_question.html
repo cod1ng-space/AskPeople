@@ -11,9 +11,7 @@
     <h3 class="mt-5 mb-3">Answers ({{ page_obj.paginator.count }})</h3>
 
     {% for answer in answers %}
-    <div id="answer-{{ answer.id }}">
-        {% include 'layouts/answer.html' %}
-    </div>
+    {% include 'layouts/answer.html' %}
     {% endfor %}
 
 

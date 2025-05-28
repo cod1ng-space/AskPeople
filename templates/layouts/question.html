@@ -9,15 +9,19 @@
                     </span>
                 </div>
                 <div class="border mb-2 w-100">
-                    <img src="{% static 'images/question.jpg' %}" alt="img" class="img-fluid">
+                    {% if question.author.profile.avatar %}
+                        <img src="{{ question.author.profile.avatar.url }}" alt="{{ question.author.username }}" class="img-fluid">
+                    {% else %}
+                        <img src="{% static 'images/question.jpg' %}" alt="Default avatar" class="img-fluid">
+                    {% endif %}
                 </div>
                 <div class="btn-group d-flex">
-                    <button type="button" class="btn btn-outline-success like-btn" style="border-right: 1px solid gray">
-                        <span class="count">{{ question.likes_count }}</span>
+                    <button type="button" data-question-like-id="{{ question.id }}" class="btn btn-outline-success like-btn" style="border-right: 1px solid gray">
+                        <span class="count" data-like-counter="{{ question.id }}" >{{ question.likes_count }}</span>
                     </button>
                     
-                    <button type="button" class="btn btn-outline-danger dislike-btn" style="border-left: 1px solid gray">
-                        <span class="count">{{ question.dislikes_count }}</span>
+                    <button type="button" data-question-dislike-id="{{ question.id }}" class="btn btn-outline-danger dislike-btn" style="border-left: 1px solid gray" >
+                        <span class="count" data-dislike-counter="{{ question.id }}">{{ question.dislikes_count }}</span>
                     </button>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 {% load static %}
-<articles class="d-flex gap-3 flex-column">
-    <div class="card">
+<article class="d-flex gap-3 flex-column">
+    <div class="card mb-3">
         <div class="card-body">
             <div class="row">
                 <div class="col-2">
@@ -10,15 +10,19 @@
                         </span>
                     </div>
                     <div class="border mb-2 w-100">
-                        <img src="{% static 'images/question.jpg' %}" alt="img" class="img-fluid">
+                        {% if answer.author.profile.avatar %}
+                            <img src="{{ answer.author.profile.avatar.url }}" alt="{{ answer.author.username }}" class="img-fluid">
+                        {% else %}
+                            <img src="{% static 'images/question.jpg' %}" alt="Default avatar" class="img-fluid">
+                        {% endif %}
                     </div>
                     <div class="btn-group d-flex">
-                        <button type="button" class="btn btn-outline-success like-btn" style="border-right: 1px solid gray">
-                            <span class="count">{{ answer.likes_count }}</span>
+                        <button type="button" data-answer-like-id="{{ answer.id }}" class="btn btn-outline-success like-btn" style="border-right: 1px solid gray">
+                            <span class="count" data-like-counter="{{ answer.id }}">{{ answer.likes_count }}</span>
                         </button>
                         
-                        <button type="button" class="btn btn-outline-danger dislike-btn" style="border-left: 1px solid gray">
-                            <span class="count">{{ answer.dislikes_count }}</span>
+                        <button type="button" data-answer-dislike-id="{{ answer.id }}" class="btn btn-outline-danger dislike-btn" style="border-left: 1px solid gray">
+                            <span class="count" data-dislike-counter="{{ answer.id }}">{{ answer.dislikes_count }}</span>
                         </button>
                     </div>
                 </div>
@@ -28,10 +32,22 @@
                         <p class="card-text">{{ answer.text }}</p>
                     </div>
                     <div class="mt-2">
-                        <input type="radio" class="btn-check" name="correct-answer" id="btn-check{{ answer.id }}" autocomplete="off">
-                        <label class="btn btn-outline-success" for="btn-check{{ answer.id }}">Correct!</label>
+                        {% if request.user.is_authenticated and question.author.username == request.user.username %}
+                            <input type="radio" class="btn-check" name="correct-answer" id="btn-check{{ answer.id }}" autocomplete="off"
+                            {% if answer.is_correct %} checked {% endif %}
+                            onclick="onRightAnswerClick(event)"
+                            data-question-id="{{answer.question.id}}"
+                            data-answer-id="{{answer.id}}"
+                            >
+                            <label class="btn btn-outline-success" for="btn-check{{ answer.id }}">Correct!</label>
+                        {% else %}
+                            {% if answer.is_correct %} 
+                                <b style="color: green">Correct answer!</b>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</article>
