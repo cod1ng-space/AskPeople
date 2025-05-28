@@ -56,7 +56,6 @@ function onRightAnswerClick(event) {
     const formData = new FormData();
     formData.append('is_correct', event.target.checked);
     formData.append('question', questionId);
-    formData.append('answer', answerId);
 
     const request = new Request(
         url,
@@ -80,6 +79,7 @@ function onRightAnswerClick(event) {
         } else {
             label.classList.remove('active');
         }
+        event.target.checked = data.is_correct;
     }).catch(error => {
         console.error('Error:', error);
         event.target.checked = !event.target.checked;

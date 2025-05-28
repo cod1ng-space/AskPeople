@@ -1,5 +1,5 @@
 {% load static %}
-<articles class="d-flex gap-3 flex-column">
+<article class="d-flex gap-3 flex-column">
     <div class="card mb-3">
         <div class="card-body">
             <div class="row">
@@ -32,23 +32,22 @@
                         <p class="card-text">{{ answer.text }}</p>
                     </div>
                     <div class="mt-2">
-                    {% if request.user.is_authenticated and question.author.username == request.user.username %}
-                        <input type="radio" class="btn-check" name="correct-answer" id="btn-check{{ answer.id }}" autocomplete="off"
-                        {% if answer.isCorrect %} 
-                        checked
+                        {% if request.user.is_authenticated and question.author.username == request.user.username %}
+                            <input type="radio" class="btn-check" name="correct-answer" id="btn-check{{ answer.id }}" autocomplete="off"
+                            {% if answer.is_correct %} checked {% endif %}
+                            onclick="onRightAnswerClick(event)"
+                            data-question-id="{{answer.question.id}}"
+                            data-answer-id="{{answer.id}}"
+                            >
+                            <label class="btn btn-outline-success" for="btn-check{{ answer.id }}">Correct!</label>
+                        {% else %}
+                            {% if answer.is_correct %} 
+                                <b style="color: green">Correct answer!</b>
+                            {% endif %}
                         {% endif %}
-                        onclick="onRightAnswerClick(event)"
-                        data-question-id="{{answer.question.id}}"
-                        data-answer-id="{{answer.id}}"
-                        >
-                        <label class="btn btn-outline-success" for="btn-check{{ answer.id }}">Correct!</label>
                     </div>
-                    {% else %}
-                        {% if answer.isCorrect %} 
-                            <b style="color: green">Correct answer!</b>
-                        {% endif %}
-                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+</article>

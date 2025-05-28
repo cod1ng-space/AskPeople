@@ -3,18 +3,17 @@ from django.shortcuts import get_object_or_404
 
 from app.models import Answer, Question
 
-def setRightAnswerResponse(request):
+def setRightAnswerResponse(request, answer_id):
     if request.method == "POST":
         question_id = request.POST.get("question")
-        answer_id = request.POST.get("answer")
-        is_correct = request.POST.get("is_correct") == 'true'
+        is_correct = request.POST.get("is_correct", "").lower() == 'true'
         
         question = get_object_or_404(Question, id=question_id)
         answer = get_object_or_404(Answer, id=answer_id, question=question)
-        print(question, answer)
+
         if question.author != request.user:
-            return JsonResponse({"error"}, status=403)
-        
+            return JsonResponse({"error": "Not author of question"}, status=403)
+
         if answer.is_correct and not is_correct:
             answer.is_correct = False
             answer.save()
@@ -34,4 +33,4 @@ def setRightAnswerResponse(request):
             "is_correct": answer.is_correct
         })
     else:
-        return JsonResponse({"error"}, status=405)
+        return JsonResponse({"error": "Method not allowed"}, status=405)

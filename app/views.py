@@ -223,6 +223,6 @@ def answer_like(request, answer_id):
 
 @require_POST
 @login_required
-def mark_correct_answer(request):
-    return setRightAnswerResponse(request)
+def mark_correct_answer(request, answer_id):
+    return setRightAnswerResponse(request, answer_id)
 
